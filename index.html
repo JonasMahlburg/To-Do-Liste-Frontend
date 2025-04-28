@@ -5,53 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body onload="loadToDos()">
     <h1>TODO-Liste</h1>
-    <form onsubmit="addToDo(); return false">
-        <input type="text" placeholder="Neues ToDo" id="todoinput">
-        <button>Hinzufügen</button>
-    </form>
+
 
     <ul id="todolist">
         <li>Laden...</li>
     </ul>
+    <form class="form" onsubmit="addToDo(); return false">
+        <input type="text" placeholder="Neues ToDo" id="todoinput">
+        <button>Hinzufügen</button>
+    </form>
 
-    <script>
-        let todos = []
-
-        async function loadToDos() {
-            const url = 'http://localhost:3000/todos';
-            let resp = await fetch(url);
-            todos = await resp.json();
-            render()
-        }
-
-        function addToDo() {
-            let toDo_Text = todoinput.value;
-            todos.push({ "title": toDo_Text });
-
-            todoinput.value = '';
-            addToServer(toDo_Text);
-            render()
-        }
-
-        function addToServer(toDo_Text) {
-            fetch('http://127.0.0.1:3000/todos', {
-                body: JSON.stringify({ "title": toDo_Text }),
-                headers: { "Content-Type": "application/json" },
-                method: "POST"
-            });
-
-        }
-
-        function render() {
-            todolist.innerHTML = '';
-            todos.forEach(todo => todolist.innerHTML += `<li>${todo.title}</li>`);
-        }
-
-    </script>
 </body>
 
 </html>
